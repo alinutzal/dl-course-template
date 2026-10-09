@@ -1,0 +1,15 @@
+# CSCI 4852/6952 Deep Learning — course environment, Spring 2027 (REC-09)
+# Python 3.12. Install PyTorch FIRST with the platform command in README.md, then:
+#   pip install -r requirements.txt
+numpy==2.5.3
+pandas==3.0.6
+matplotlib==3.11.2
+scikit-learn==1.9.1
+tqdm==4.70.1
+pyyaml==6.0.3
+jupyterlab==4.6.4
+ipykernel
+datasets==5.1.0          # text data for Lab 4 (replaces torchtext, which is no longer developed)
+torch-geometric==2.8.0.post1  # Week 13 GNN demo / Lab 5 GNN option (pure-Python core)
+pytest                   # lab smoke tests
+nbclient                 # "Restart & Run All" checks for notebooks

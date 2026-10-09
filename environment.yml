@@ -1,0 +1,14 @@
+# Conda/Miniforge environment for OSC (module load miniconda3) and local machines with an NVIDIA GPU.
+# Create:   conda env create -f environment.yml
+# CPU-only: replace the cu126 index URL and the +cu126 suffixes with /whl/cpu and +cpu.
+name: dl2027
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cu126
+      - torch==2.14.1+cu126
+      - torchvision==0.29.1+cu126
+      - -r requirements.txt

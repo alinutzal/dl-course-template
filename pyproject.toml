@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dlcourse"
+version = "2027.1.0"
+description = "Reproducible training scaffold for CSCI 4852/6952 Deep Learning (Spring 2027)"
+requires-python = ">=3.12"
+# Dependencies are provided by the course environment (environment.yml / requirements*.txt).
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

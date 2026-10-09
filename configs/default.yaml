@@ -1,0 +1,31 @@
+# Every setting that affects results lives here; override from the command line, e.g.
+#   python scripts/train.py --config configs/default.yaml seed=2 optim.lr=0.01
+name: baseline-mlp          # experiment name; runs with different seeds share it
+seed: 1
+deterministic: false        # true = bitwise-reproducible on GPU (slower); see Week 1 notes
+device: auto                # auto | cpu | cuda | mps
+
+data:
+  dataset: synthetic        # synthetic | mnist
+  root: data                # download/cache folder (git-ignored)
+  val_fraction: 0.1
+  test_fraction: 0.2        # used only when the dataset has no official test split
+  batch_size: 128
+  num_workers: 0
+
+model:
+  hidden_sizes: [128, 64]
+  dropout: 0.0
+
+optim:
+  name: adam                # sgd | adam | adamw
+  lr: 0.001
+  weight_decay: 0.0
+  momentum: 0.9             # sgd only
+
+train:
+  epochs: 10
+  early_stopping_patience: 0  # 0 = off; otherwise stop after N epochs without val-loss improvement
+
+output:
+  runs_dir: runs            # git-ignored; one sub-folder per run
