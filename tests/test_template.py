@@ -111,3 +111,17 @@ def test_cli_end_to_end(cfg, tmp_path):
     table = _load_script("summarize_runs").summarize(runs)
     assert table["baseline-mlp"]["test_acc"][2] == 2  # two seeds aggregated
     assert _load_script("plot_run").plot(run_dir).exists()
+
+
+def test_diverged_run_still_checkpoints(cfg, tmp_path):
+    """A run whose loss is NaN from the start must still save best.pt (regression test)."""
+    set_seed(cfg["seed"])
+    train, val, test = load_splits(cfg)
+    loaders = make_loaders(train, val, test, cfg)
+    model = build_model(cfg, 20, 3)
+    with torch.no_grad():
+        for p in model.parameters():
+            p.fill_(float("nan"))
+    history = fit(model, loaders, build_optimizer(cfg, model.parameters()), cfg, tmp_path, torch.device("cpu"))
+    assert (tmp_path / "best.pt").exists()
+    assert all(r["val_loss"] != r["val_loss"] for r in history)  # NaN everywhere, as constructed

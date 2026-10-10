@@ -83,8 +83,10 @@ def fit(
                 f"epoch {epoch:3d}/{epochs} | train loss {train_loss:.4f} acc {train_acc:.3f}"
                 f" | val loss {val_loss:.4f} acc {val_acc:.3f} | {row['epoch_seconds']:.1f}s"
             )
-            if val_loss < best_val:
-                best_val, since_best = val_loss, 0
+            # Always checkpoint the first epoch, so a run whose validation loss is never finite
+            # (e.g. a diverged run with NaN loss) still has a best.pt to evaluate and report.
+            if epoch == 1 or val_loss < best_val:
+                best_val, since_best = (val_loss if val_loss == val_loss else float("inf")), 0
                 torch.save(model.state_dict(), run_dir / "best.pt")
             else:
                 since_best += 1
